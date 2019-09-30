@@ -23,6 +23,7 @@
     </repositories>
 
     <properties>
+        <java.version>1.8</java.version>
         <scope.value>compile</scope.value>
         <storm.version>0.9.3</storm.version>
     </properties>
