@@ -6,12 +6,14 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.ReportedFailedException;
 import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
-import com.google.common.base.Preconditions;
-import org.apache.storm.guava.io.Files;
+import com.gjxx.util.RedisUtils;
+import redis.clients.jedis.Jedis;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Sxs
@@ -20,13 +22,11 @@ import java.util.Map;
  */
 public class SaveRecommendedSales extends BaseBasicBolt {
 
-    private String fileName;
-    private File file;
+    private Jedis jedis = null;
 
     @Override
     public void prepare(Map stormConf, TopologyContext context) {
-        fileName = "files/recommendedSales.txt";
-        file = new File(fileName);
+        jedis = RedisUtils.getJedis();
     }
 
     @Override
@@ -39,15 +39,15 @@ public class SaveRecommendedSales extends BaseBasicBolt {
         String customerId = input.getStringByField("customerId");
         String sales = input.getStringByField("sales");
 
-        // 数据校验
-        Preconditions.checkNotNull(fileName, "Provided file name for writing must NOT be null.");
-        Preconditions.checkNotNull(customerId, "Unable to write null contents.");
-        Preconditions.checkNotNull(sales, "Unable to write null contents.");
-
         try {
-            Files.write((customerId+sales).getBytes(), file);
-        } catch (IOException e) {
+            jedis.lpush(customerId, sales);
+        } catch (Exception e) {
             throw new ReportedFailedException(e);
         }
+    }
+
+    @Override
+    public void cleanup() {
+        RedisUtils.returnResource(jedis);
     }
 }

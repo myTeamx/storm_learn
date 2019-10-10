@@ -12,7 +12,7 @@ import backtype.storm.utils.Utils;
  */
 public class LocalTopologyRunner {
 
-    private static final int TEN_MINUTES = 1000;
+    private static final int TEN_MINUTES = 5000;
 
     public static void main(String[] args) {
         Config config = new Config();

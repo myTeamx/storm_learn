@@ -31,7 +31,7 @@ public class FindRecommendedSales extends BaseBasicBolt {
         String customerId = (String) input.getValueByField("customerId");
         try {
             String saleIds = customerId + "的商品列表";
-            if (StringUtils.isEmpty(saleIds)) {
+            if (StringUtils.isNotEmpty(saleIds)) {
                 // 发射后，元组自动锚定
                 collector.emit(new Values(customerId, saleIds));
             }
