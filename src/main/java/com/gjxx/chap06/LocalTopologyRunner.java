@@ -3,6 +3,7 @@ package com.gjxx.chap06;
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.generated.StormTopology;
+import backtype.storm.metric.LoggingMetricsConsumer;
 import backtype.storm.utils.Utils;
 
 /**
@@ -16,6 +17,9 @@ public class LocalTopologyRunner {
 
     public static void main(String[] args) {
         Config config = new Config();
+        config.setDebug(true);
+        // 设置指标接收器
+        config.registerMetricsConsumer(LoggingMetricsConsumer.class, 1);
 
         StormTopology topology = FlashSaleTopologyBuilder.build();
 

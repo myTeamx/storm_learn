@@ -28,7 +28,7 @@ public class FlashSaleTopologyBuilder {
 
         // 设置并行的执行器数量为1，即JVM中对应的线程为1
         builder.setBolt(FIND_RECOMMENDED_SALES, new FindRecommendedSales(), 1)
-                // 设置每个执行器中的任务(实例)数为1    (是设置总的task数量还是每个executor中task的数量?)
+                // 设置每个执行器中的任务(实例)数为1    (是设置总的task数量还是每个executor中task的数量?)    总的
                 .setNumTasks(1)
                 .shuffleGrouping(CUSTOMER_RETRIEVAL_SPOUT);
 
