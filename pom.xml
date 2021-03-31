@@ -35,7 +35,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <scope.value>compile</scope.value>
         <storm.version>0.9.3</storm.version>
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <jedis.version>3.1.0</jedis.version>
         <lombok.version>1.16.18</lombok.version>
     </properties>
